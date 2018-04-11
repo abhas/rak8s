@@ -24,15 +24,14 @@
     state: latest
 
 - name: Add Google Cloud Repo Key
-  shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+  apt_key:
+    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    state: present
 
 - name: Add Kubernetes to Available apt Sources
-  template:
-    src: kubernetes.list
-    dest: /etc/apt/sources.list.d/kubernetes.list
-    owner: root
-    group: root
-    mode: 0644
+  apt_repository:
+    repo: "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+    state: present
 
 - name: apt-get update
   apt:
